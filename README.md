@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Weather UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Weather UI project! This web application allows you to check current and historical weather data. It's built using React, Ant Design, Redux, and React Router. 
+[NOTE]: Before starting weather_ui server (starts at localhost:3000) , You should start weahter_backend_server (starts at localhost:8080) . 
 
-## Available Scripts
+## Table of Contents
+1. [Clone the Repository](#1-clone-the-repository)
+2. [Install Dependencies](#2-install-dependencies)
+3. [Start the Server](#3-start-the-server)
+4. [About the Project](#4-about-the-project)
 
-In the project directory, you can run:
+## 1. Clone the Repository
+To get started, you can clone this repository to your local machine using the following command:
 
-### `npm start`
+```bash
+git clone https://github.com/SouravChoudhary/weather_ui.git
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 2. Install Dependencies
+Before running the application, you need to install the project dependencies. Navigate to the project directory and run:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+cd weather_ui
+npm install
+```
 
-### `npm test`
+This command will install all the required packages and libraries.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 3. Start the Server
+Once the dependencies are installed, you can start the development server using the following command:
 
-### `npm run build`
+```bash
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The application will be accessible at `http://localhost:3000`. You can view it in your web browser.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 4. About the Project
+The Weather UI project is a modern web application for checking weather data. It provides the following features and implementations:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Current Weather**: You can search for the current weather in a specific city.
+- **Historical Weather**: View historical weather data for different cities.
+- **User Authentication**: Users can register and log in to access their search history.
 
-### `npm run eject`
+### Project Structure
+- `src` directory contains the React components and application logic.
+- `actions` directory holds Redux action creators.
+- `reducers` directory manages the application's state with Redux.
+- `components` folder includes reusable UI components.
+- `css` directory for styles and CSS files.
+- `utils` contains utility functions.
+- `constants` for project-specific constants.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Feel free to explore the source code, and have fun experimenting with this Weather UI application!
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+You can customize this README file with more detailed information about your project and any specific usage instructions.
