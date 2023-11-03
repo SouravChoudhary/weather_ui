@@ -10,12 +10,10 @@ import { bindActionCreators } from "redux";
 
 import "../../css/login.css";
 
-
 class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   navigateToRegister = () => {
@@ -29,8 +27,7 @@ class LoginForm extends Component {
     var username = _.get(values, "username", "");
     var password = _.get(values, "password", "");
 
-    this.props.authActions.login(username,password).then((resp)=>{
-
+    this.props.authActions.login(username, password).then((resp) => {
       var err = _.get(resp, "error", "");
 
       if (!_.isEmpty(err)) {
@@ -40,19 +37,17 @@ class LoginForm extends Component {
           duration: 2,
         });
       } else {
-
         notification.success({
           message: "SUCCESS",
           description: "Logged In Successfully",
           duration: 2,
         });
-       
-       setTimeout(() => {
-        this.navigateToSearchWeather()
-       }, 3000);
 
+        setTimeout(() => {
+          this.navigateToSearchWeather();
+        }, 3000);
       }
-    })
+    });
   };
 
   onFinishFailed = (errorInfo) => {
@@ -62,7 +57,7 @@ class LoginForm extends Component {
   render() {
     return (
       <div>
-         <Flex gap="small" vertical className="form-container">
+        <Flex gap="small" vertical className="form-container">
           <div className="centered-container">
             <h2>LOGIN</h2>
             <Form
@@ -97,7 +92,7 @@ class LoginForm extends Component {
                   },
                 ]}
               >
-                <Input />
+                <Input autoComplete="username" />
               </Form.Item>
 
               <Form.Item
@@ -114,10 +109,11 @@ class LoginForm extends Component {
                   },
                 ]}
               >
-                <Input.Password />
+                <Input.Password autoComplete="current-password" />
               </Form.Item>
 
               <Form.Item
+                name="submitBtn"
                 wrapperCol={{
                   offset: 8,
                   span: 16,
@@ -130,19 +126,22 @@ class LoginForm extends Component {
             </Form>
           </div>
           <div>
-            <Button type="primary" onClick={this.navigateToRegister}>
+            <Button
+              name="registerBtn"
+              type="primary"
+              onClick={this.navigateToRegister}
+            >
               Register
             </Button>
           </div>
-          </Flex>
+        </Flex>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return {
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

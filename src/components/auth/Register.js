@@ -28,7 +28,6 @@ class RegistrationForm extends Component {
     var password = _.get(values, "password", "");
     var dob = _.get(values, "date_of_birth", "");
     this.props.authActions.register(username, password, dob).then((resp) => {
-
       var err = _.get(resp, "error", "");
 
       if (!_.isEmpty(err)) {
@@ -38,7 +37,6 @@ class RegistrationForm extends Component {
           duration: 2,
         });
       } else {
-
         notification.success({
           message: "SUCCESS",
           description: _.get(resp, "data", ""),
@@ -90,7 +88,7 @@ class RegistrationForm extends Component {
                   },
                 ]}
               >
-                <Input />
+                <Input autoComplete="email" />
               </Form.Item>
 
               <Form.Item
@@ -107,7 +105,7 @@ class RegistrationForm extends Component {
                   },
                 ]}
               >
-                <Input.Password />
+                <Input.Password autoComplete="current-password" />
               </Form.Item>
 
               <Form.Item
@@ -136,10 +134,14 @@ class RegistrationForm extends Component {
                   },
                 ]}
               >
-                <Input placeholder="DOB in YYYY-MM-DD" />
+                <Input
+                  placeholder="DOB in YYYY-MM-DD"
+                  autoComplete="birth-date"
+                />
               </Form.Item>
 
               <Form.Item
+                name="submitBtn"
                 wrapperCol={{
                   offset: 8,
                   span: 16,
@@ -152,7 +154,11 @@ class RegistrationForm extends Component {
             </Form>
           </div>
           <div>
-            <Button type="primary" onClick={this.navigateToLogin}>
+            <Button
+              name="loginBtn"
+              type="primary"
+              onClick={this.navigateToLogin}
+            >
               Go To Login
             </Button>
           </div>
@@ -163,8 +169,7 @@ class RegistrationForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -11,3 +11,9 @@ export const register = (email, password, dob) => async (dispatch) => {
   const data = await authService.register(email, password, dob);
   return data;
 };
+
+export const logout = () => async (dispatch) => {
+  dispatch({ type: types.LOGOUT, data: null });
+  dispatch({ type: types.FETCH_CURRENT_WEATHER, data: null });
+  dispatch({ type: types.FETCH_HISTORICAL_WEATHER, data: null });
+};

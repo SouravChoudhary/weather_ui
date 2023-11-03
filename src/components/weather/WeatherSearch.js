@@ -5,6 +5,7 @@ import _ from "lodash";
 import { Input, Button, Table, Pagination, Flex, notification } from "antd";
 
 import * as weatherActions from "../../actions/weatherActions";
+import * as authActions from "../../actions/authActions";
 import { withRouter } from "../utils/withRouter";
 import * as WEATHER_CONSTANTS from "../../constants/weather";
 import "../../css/weather_component.css";
@@ -34,9 +35,14 @@ class WeatherSearch extends Component {
 
   rowSelection = {
     type: "checkbox",
+    name: "headerCheckbox",
+    rowKey: "checkbox",
     onChange: (selectedRowKeys, selectedRows) => {
       this.setState({ ...this.state, selectedRowKeys: selectedRowKeys });
     },
+    getCheckboxProps: (record) => ({
+      name: record.id,
+    }),
   };
 
   setUserDetails = () => {
@@ -50,6 +56,7 @@ class WeatherSearch extends Component {
   };
 
   navigateToLogin = () => {
+    this.props.authActions.logout();
     notification.warning({
       message: "ALERT",
       description: "LOGGING OUT",
@@ -160,72 +167,71 @@ class WeatherSearch extends Component {
   };
 
   onSearch = (value) => {
-
     if (_.isEmpty(value)) {
       notification.error({
         message: "ERROR",
         description: "City name cannot be empty",
         duration: 2,
       });
-      return 
-    } 
+      return;
+    }
 
-      var user = this.state.user;
-      var token = _.get(user, "Authorization", "");
+    var user = this.state.user;
+    var token = _.get(user, "Authorization", "");
 
-      if (_.isEmpty(token)) {
-        notification.error({
-          message: "ERROR",
-          description: "Token is empty , Kindly Logout & then Login",
-          duration: 2,
-        });
+    if (_.isEmpty(token)) {
+      notification.error({
+        message: "ERROR",
+        description: "Token is empty , Kindly Logout & then Login",
+        duration: 2,
+      });
 
-        return;
-      }
+      return;
+    }
 
-      this.props.weatherActions
-        .fetchCurrentWeather(this.state.user.user_id, value, token)
-        .then((resp) => {
-          var error = _.get(resp, "error", "");
-          if (!_.isEmpty(error)) {
-            notification.error({
-              message: "ERROR",
-              description: error,
-              duration: 2,
-            });
-            return;
-          }
-
-          var weatherDataStr = _.get(resp, "data", "{}");
-          var weatherDataObj = JSON.parse(weatherDataStr);
-          var mainWeatherDataObj = _.get(weatherDataObj, "main", {});
-          var mainWeatherDataObjWithCity = {
-            ...mainWeatherDataObj,
-            city_name: value,
-          };
-
-          this.setState(() => {
-            return {
-              ...this.setState,
-              currentSearchedWeather: [mainWeatherDataObjWithCity],
-            };
+    this.props.weatherActions
+      .fetchCurrentWeather(this.state.user.user_id, value, token)
+      .then((resp) => {
+        var error = _.get(resp, "error", "");
+        if (!_.isEmpty(error)) {
+          notification.error({
+            message: "ERROR",
+            description: error,
+            duration: 2,
           });
+          return;
+        }
 
-          this.getWeatherHistory();
+        var weatherDataStr = _.get(resp, "data", "{}");
+        var weatherDataObj = JSON.parse(weatherDataStr);
+        var mainWeatherDataObj = _.get(weatherDataObj, "main", {});
+        var mainWeatherDataObjWithCity = {
+          ...mainWeatherDataObj,
+          city_name: value,
+        };
+
+        this.setState(() => {
+          return {
+            ...this.setState,
+            currentSearchedWeather: [mainWeatherDataObjWithCity],
+          };
         });
- 
+
+        this.getWeatherHistory();
+      });
   };
 
   render() {
     return (
       <div>
         <div>
-          <Button type="primary" onClick={this.navigateToLogin}>
+          <Button name="logout" type="primary" onClick={this.navigateToLogin}>
             LOGOUT
           </Button>
         </div>
         <div className="search-container">
           <Input.Search
+            name="search"
             placeholder="search weather by city name"
             allowClear
             enterButton="Search"
@@ -237,11 +243,10 @@ class WeatherSearch extends Component {
         <div>
           <h2>Latest Weather Search</h2>
           <Table
+            name="latestWeatherDataTable"
             dataSource={this.state.currentSearchedWeather}
             columns={WEATHER_CONSTANTS.CurrentWeatherTableColumns}
-            rowKey={(idx, record) => {
-              return idx;
-            }}
+            rowKey={(record) => record.city_name}
             pagination={false}
           />
         </div>
@@ -249,24 +254,28 @@ class WeatherSearch extends Component {
         <div>
           <h2>Historical Weather Search</h2>
           <Table
+            name="HistoricalWeatherDataTable"
             dataSource={this.state.weatherHistoryList}
             columns={WEATHER_CONSTANTS.WeatherHistoryTableColumns}
-            rowKey={(record) => {
-              return record.id;
-            }}
+            rowKey={(record) => record.id}
             pagination={false}
             rowSelection={this.rowSelection}
           />
 
           <Flex gap="small" wrap="wrap" style={{ marginTop: "16px" }}>
             <Pagination
+              name="pagination"
               current={this.state.pagination.pageNo}
               total={30} // Total number of historical records
               pageSize={this.state.pagination.pageLen}
               onChange={this.handlePageChange}
             />
             {this.state.selectedRowKeys.length > 0 && (
-              <Button type="primary" onClick={this.bulkDeleteHistoryRecords}>
+              <Button
+                name="delete"
+                type="primary"
+                onClick={this.bulkDeleteHistoryRecords}
+              >
                 Delete
               </Button>
             )}
@@ -287,6 +296,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     weatherActions: bindActionCreators(weatherActions, dispatch),
+    authActions: bindActionCreators(authActions, dispatch),
   };
 };
 
